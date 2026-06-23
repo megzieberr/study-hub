@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Study Hub — Grade 12</title>
+<meta name="theme-color" content="#241046">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap');
 :root {
@@ -428,6 +433,22 @@ tr:hover td{background:rgba(99,102,241,.07);}
 /* marks subject controls */
 .marks-form select{font-family:inherit;border:1.5px solid #e3e5f5;border-radius:10px;padding:10px 12px;font-size:14px;font-weight:700;}
 .subj-chip{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;color:#fff;}
+
+/* ───────── STUDY TIMER + OVERLAYS ───────── */
+.timer-fab{position:fixed;right:16px;bottom:74px;z-index:300;width:54px;height:54px;border:none;border-radius:50%;cursor:pointer;
+  background:linear-gradient(135deg,#16a34a,#0f766e);color:#fff;font-size:24px;box-shadow:0 10px 26px rgba(16,163,74,.45);transition:transform .2s;}
+.timer-fab:hover{transform:translateY(-3px) scale(1.06);}
+.overlay{position:fixed;inset:0;z-index:500;background:rgba(15,14,26,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px;}
+.overlay.show{display:flex;}
+.ov-card{position:relative;background:#fff;border-radius:22px;padding:26px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.4);}
+.ov-x{position:absolute;top:14px;right:14px;border:none;background:#f1f0f8;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:800;color:var(--muted);}
+.ov-fields{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;}
+.ov-fields label{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);flex:1;min-width:90px;}
+.ov-fields input,.ov-fields select{font-family:inherit;border:1.5px solid #e3e5f5;border-radius:10px;padding:10px 11px;font-size:14px;font-weight:700;}
+.timer-display{font-size:62px;font-weight:900;text-align:center;margin:16px 0 4px;letter-spacing:1px;
+  background:linear-gradient(135deg,#16a34a,#0e7490);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.timer-status{text-align:center;font-weight:800;color:var(--ink);margin-bottom:16px;min-height:20px;}
+.ov-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 </style>
 </head>
 <body>
@@ -452,10 +473,14 @@ tr:hover td{background:rgba(99,102,241,.07);}
     </div>
     <div id="schedOutput"></div>
   </div>
+  <div class="hub-section-title">📈 My Progress</div>
+  <div id="progressDash"></div>
   <div class="hub-section-title">⚡ Quick links</div>
   <div class="g2">
     <div class="quick-tile" id="qtMarks"><div class="qt-ic" style="background:#dcfce7;">📊</div><div><strong>My Marks</strong><br><small>Log results &amp; track your average across every subject</small></div></div>
     <div class="quick-tile" id="qtSched"><div class="qt-ic" style="background:#fef3c7;">🗓️</div><div><strong>Study Plan</strong><br><small>Jump to your schedule generator</small></div></div>
+    <div class="quick-tile" id="qtCloud"><div class="qt-ic" style="background:#dbeafe;">☁️</div><div><strong>Cloud Sync</strong><br><small>Save progress &amp; sync across devices</small></div></div>
+    <div class="quick-tile" id="installBtn" style="display:none;"><div class="qt-ic" style="background:#ede9fe;">📲</div><div><strong>Install App</strong><br><small>Add Study Hub to your home screen</small></div></div>
   </div>
 </div></div>
 <!-- ═══════════════ PAGE: HOME (Life Sciences overview) ═══════════════ -->
@@ -2223,6 +2248,226 @@ tr:hover td{background:rgba(99,102,241,.07);}
     <li>Keep handwriting legible — markers can't award what they can't read</li>
   </ul></div>
 </div></div>
+<!-- ═══════════════ WISKUNDE — OORSIG ═══════════════ -->
+<div id="page-maths-home" class="page">
+<div class="hero" style="background:linear-gradient(120deg,#06231a 0%,#0b3b2e 35%,#0e5a43 60%,#134e4a 100%)">
+  <div class="hero-badge">Graad 12 · Wiskunde · 2026</div>
+  <h1>Wiskunde <span style="color:#6ee7b7;text-shadow:0 2px 26px rgba(110,231,183,.5)">Vraestel 1 &amp; 2</span></h1>
+  <p>Kies 'n hoofstuk om te hersien · kernformules + flitskaarte · alles in Afrikaans</p>
+  <div class="chips">
+    <div class="chip"><small>V1</small>3 uur · 150</div>
+    <div class="chip"><small>V2</small>3 uur · 150</div>
+    <div class="chip"><small>Hoofstukke</small>9</div>
+    <div class="chip"><small>Bron</small>Doen Dit Net</div>
+  </div>
+  <div class="exam-cd" data-sub="maths">
+    <div class="ecd-num">–</div>
+    <div class="ecd-txt"><div class="ecd-lbl">dae oor</div><div class="ecd-date"></div></div>
+    <button class="ecd-edit">📅 Stel datum</button>
+  </div>
+</div>
+<div class="container">
+  <div class="page-title">
+    <div class="ic" style="background:#d1fae5;color:#0f766e;">📐</div>
+    <div><h2>Wiskunde — Hoofstukke</h2><p>Kies 'n hoofstuk hieronder of in die spyskaart bo. Elke hoofstuk het kernformules en flitskaarte.</p></div>
+  </div>
+  <div class="callout exam"><div class="ico">📌</div><div>Hersien <strong>een hoofstuk op 'n slag</strong>: lees die kernformules, doen dan die flitskaarte vir daardie hoofstuk totdat jy hulle ken. Oefenvrae per hoofstuk word bygevoeg sodra beter-geformateerde vraestelle beskikbaar is.</div></div>
+  <div class="sh">📄 Vraestel 1</div>
+  <div class="g2">
+    <div class="card" style="border-left:5px solid #0f766e;"><h3>🔢 Rye &amp; Reekse</h3><p style="color:var(--muted);font-size:13.5px;">Rekenkundig, meetkundig, sigma-notasie, konvergensie.</p></div>
+    <div class="card" style="border-left:5px solid #0f766e;"><h3>📈 Funksies &amp; Inverses</h3><p style="color:var(--muted);font-size:13.5px;">Inverse funksies, eksponensiaal &amp; logaritmes.</p></div>
+    <div class="card" style="border-left:5px solid #0f766e;"><h3>📉 Differensiaalrekene</h3><p style="color:var(--muted);font-size:13.5px;">Eerste beginsels, reëls, raaklyne, optimisering.</p></div>
+    <div class="card" style="border-left:5px solid #0f766e;"><h3>💰 Finansies</h3><p style="color:var(--muted);font-size:13.5px;">Saamgestelde rente, annuïteite, aflossings.</p></div>
+    <div class="card" style="border-left:5px solid #0f766e;"><h3>🎲 Waarskynlikheid</h3><p style="color:var(--muted);font-size:13.5px;">Reëls, Venn, boomdiagramme, telbeginsel.</p></div>
+  </div>
+  <div class="sh">📄 Vraestel 2</div>
+  <div class="g2">
+    <div class="card" style="border-left:5px solid #0e7490;"><h3>📊 Statistiek</h3><p style="color:var(--muted);font-size:13.5px;">Spreiding, ogiewe, boksstippings, regressie.</p></div>
+    <div class="card" style="border-left:5px solid #0e7490;"><h3>📐 Trigonometrie</h3><p style="color:var(--muted);font-size:13.5px;">Identiteite, vergelykings, grafieke, sin/cos-reëls.</p></div>
+    <div class="card" style="border-left:5px solid #0e7490;"><h3>🧭 Analitiese Meetkunde</h3><p style="color:var(--muted);font-size:13.5px;">Afstand, gradiënt, lyne, sirkels.</p></div>
+    <div class="card" style="border-left:5px solid #0e7490;"><h3>⭕ Sirkelmeetkunde</h3><p style="color:var(--muted);font-size:13.5px;">Stellings, bewyse, eweredigheid &amp; gelykvormigheid.</p></div>
+  </div>
+</div></div>
+
+<!-- ═══════════════ RYE & REEKSE ═══════════════ -->
+<div id="page-maths-ryereekse" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#d1fae5;color:#0f766e;">🔢</div><div><h2>Rye &amp; Reekse</h2><p>Afrikaans · Vraestel 1 · rekenkundig, meetkundig &amp; sigma</p></div></div>
+  <div class="sh">📐 Kernformules</div>
+  <div class="card">
+    <h4>Rekenkundig (konstante verskil d)</h4>
+    <ul><li><strong>n-de term:</strong> T<sub>n</sub> = a + (n − 1)d</li><li><strong>Som:</strong> S<sub>n</sub> = n⁄2 [2a + (n − 1)d] = n⁄2 (a + ℓ)</li></ul>
+    <h4>Meetkundig (konstante verhouding r)</h4>
+    <ul><li><strong>n-de term:</strong> T<sub>n</sub> = a·r<sup>n−1</sup></li><li><strong>Som:</strong> S<sub>n</sub> = a(r<sup>n</sup> − 1)⁄(r − 1), &nbsp; r ≠ 1</li></ul>
+    <h4>Oneindige meetkundige reeks</h4>
+    <ul><li>Konvergeer slegs as <strong>−1 &lt; r &lt; 1</strong></li><li><strong>Som tot oneindig:</strong> S<sub>∞</sub> = a⁄(1 − r)</li></ul>
+    <h4>Sigma-notasie (Σ)</h4>
+    <ul><li>Aantal terme = (boonste − onderste) + 1</li><li>Σ tel die terme van die ondergrens tot bogrens op</li></ul>
+  </div>
+  <div class="callout exam"><div class="ico">📌</div><div>Toets eers of 'n ry rekenkundig (gemeenskaplike <em>verskil</em>) of meetkundig (gemeenskaplike <em>verhouding</em>) is voordat jy 'n formule kies.</div></div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Rye &amp; Reekse')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ FUNKSIES & INVERSES ═══════════════ -->
+<div id="page-maths-funksies" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#d1fae5;color:#0f766e;">📈</div><div><h2>Funksies &amp; Inverses</h2><p>Afrikaans · Vraestel 1 · inverse, eksponensiaal &amp; logaritmes</p></div></div>
+  <div class="sh">📐 Kernformules</div>
+  <div class="card">
+    <h4>Inverse funksies</h4>
+    <ul><li>Verwissel x en y, los dan op vir y</li><li>Die grafiek van f<sup>−1</sup> is 'n <strong>refleksie van f om die lyn y = x</strong></li><li>'n Parabool f(x)=ax² se inverse is slegs 'n funksie as die domein beperk word</li></ul>
+    <h4>Eksponensiaal ↔ logaritme</h4>
+    <ul><li>As f(x) = b<sup>x</sup>, dan is f<sup>−1</sup>(x) = log<sub>b</sub> x</li><li>b<sup>x</sup> = y &nbsp;⇔&nbsp; log<sub>b</sub> y = x</li></ul>
+    <h4>Logaritmewette</h4>
+    <ul><li>log(AB) = log A + log B</li><li>log(A⁄B) = log A − log B</li><li>log A<sup>n</sup> = n·log A</li></ul>
+  </div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Funksies &amp; Inverses')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ CALCULUS ═══════════════ -->
+<div id="page-maths-calculus" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#d1fae5;color:#0f766e;">📉</div><div><h2>Differensiaalrekene (Calculus)</h2><p>Afrikaans · Vraestel 1 · afgeleides, raaklyne &amp; optimisering</p></div></div>
+  <div class="sh">📐 Kernformules</div>
+  <div class="card">
+    <h4>Eerste beginsels</h4>
+    <ul><li>f′(x) = lim<sub>h→0</sub> [ f(x + h) − f(x) ] ⁄ h</li></ul>
+    <h4>Reëls vir afleiding</h4>
+    <ul><li>As f(x) = a·x<sup>n</sup> &nbsp;dan&nbsp; f′(x) = a·n·x<sup>n−1</sup></li><li>Die afgeleide van 'n konstante is 0</li></ul>
+    <h4>Raaklyne &amp; grafieke</h4>
+    <ul><li>Gradiënt van die raaklyn by 'n punt = f′(x) by daardie x</li><li><strong>Stasionêre punte:</strong> stel f′(x) = 0</li><li><strong>Buigpunt:</strong> stel f″(x) = 0</li><li>Kubiese grafiek: vind x- en y-afsnitte, draaipunte en buigpunt</li></ul>
+    <h4>Toepassings</h4>
+    <ul><li><strong>Optimisering:</strong> stel die afgeleide gelyk aan 0 vir 'n maksimum/minimum</li><li><strong>Beweging:</strong> snelheid v = s′(t); versnelling a = v′(t)</li></ul>
+  </div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Calculus')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ FINANSIES ═══════════════ -->
+<div id="page-maths-finansies" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#d1fae5;color:#0f766e;">💰</div><div><h2>Finansies, Groei &amp; Verval</h2><p>Afrikaans · Vraestel 1 · rente, annuïteite &amp; aflossings</p></div></div>
+  <div class="sh">📐 Kernformules</div>
+  <div class="card">
+    <h4>Groei &amp; waardevermindering</h4>
+    <ul><li><strong>Saamgestelde groei:</strong> A = P(1 + i)<sup>n</sup></li><li><strong>Verminderende saldo (waardevermindering):</strong> A = P(1 − i)<sup>n</sup></li><li><strong>Reguitlyn-waardevermindering:</strong> A = P(1 − i·n)</li></ul>
+    <h4>Nominaal ↔ effektief</h4>
+    <ul><li>1 + i<sub>eff</sub> = (1 + i<sub>nom</sub>⁄m)<sup>m</sup> &nbsp;(m = aantal saamstellings per jaar)</li></ul>
+    <h4>Annuïteite</h4>
+    <ul><li><strong>Toekomstige waarde:</strong> F = x · [ (1 + i)<sup>n</sup> − 1 ] ⁄ i</li><li><strong>Huidige waarde:</strong> P = x · [ 1 − (1 + i)<sup>−n</sup> ] ⁄ i</li></ul>
+  </div>
+  <div class="callout exam"><div class="ico">📌</div><div>Pasop vir die <strong>tydlyn</strong>: tel of die eerste paaiement onmiddellik of een periode later begin, en pas n daarvolgens aan.</div></div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Finansies')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ WAARSKYNLIKHEID ═══════════════ -->
+<div id="page-maths-waarskynlikheid" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#d1fae5;color:#0f766e;">🎲</div><div><h2>Waarskynlikheid &amp; Telbeginsel</h2><p>Afrikaans · Vraestel 1</p></div></div>
+  <div class="sh">📐 Kernreëls</div>
+  <div class="card">
+    <ul>
+      <li><strong>Optelreël:</strong> P(A of B) = P(A) + P(B) − P(A en B)</li>
+      <li><strong>Onderling uitsluitend:</strong> P(A en B) = 0 &nbsp;⇒&nbsp; P(A of B) = P(A) + P(B)</li>
+      <li><strong>Onafhanklik:</strong> P(A en B) = P(A) × P(B)</li>
+      <li><strong>Komplement:</strong> P(nie A) = 1 − P(A)</li>
+    </ul>
+    <h4>Telbeginsel</h4>
+    <ul>
+      <li>As keuses opeenvolgend gemaak word, <strong>vermenigvuldig</strong> die aantal moontlikhede</li>
+      <li>Rangskikking van n verskillende items: n! = n × (n−1) × … × 2 × 1</li>
+      <li>Trek herhalings / vaste posisies af soos die vraag vereis</li>
+    </ul>
+  </div>
+  <div class="callout exam"><div class="ico">📌</div><div>Teken 'n <strong>Venn-diagram</strong> of <strong>boomdiagram</strong> as die woordeprobleem ingewikkeld raak — dit voorkom dubbeltelling.</div></div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Waarskynlikheid')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ STATISTIEK ═══════════════ -->
+<div id="page-maths-statistiek" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#cffafe;color:#0e7490;">📊</div><div><h2>Statistiek &amp; Regressie</h2><p>Afrikaans · Vraestel 2</p></div></div>
+  <div class="sh">📐 Kernformules &amp; begrippe</div>
+  <div class="card">
+    <h4>Sentrale neiging &amp; spreiding</h4>
+    <ul><li><strong>Gemiddeld:</strong> x̄ = Σx ⁄ n</li><li><strong>Standaardafwyking</strong> (σ): meet hoe ver data van die gemiddeld af lê — gebruik die sakrekenaar se statistiek-modus</li></ul>
+    <h4>Vyfgetalopsomming &amp; boksstipping</h4>
+    <ul><li>Minimum, Q₁, Mediaan (Q₂), Q₃, Maksimum</li><li><strong>Interkwartielomvang:</strong> IKO = Q₃ − Q₁</li><li><strong>Uitskieter:</strong> minder as Q₁ − 1,5·IKO &nbsp;OF&nbsp; meer as Q₃ + 1,5·IKO</li></ul>
+    <h4>Kumulatiewe frekwensie</h4>
+    <ul><li>Word as 'n <strong>ogief</strong> (S-kromme) geteken; lees kwartiele en mediaan daarvan af</li></ul>
+    <h4>Regressie &amp; korrelasie</h4>
+    <ul><li><strong>Regressielyn (kleinste-kwadrate):</strong> ŷ = A + Bx</li><li><strong>Korrelasiekoëffisiënt</strong> r: −1 ≤ r ≤ 1 &nbsp;(naby ±1 = sterk; naby 0 = swak)</li></ul>
+  </div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Statistiek')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ TRIGONOMETRIE ═══════════════ -->
+<div id="page-maths-trig" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#cffafe;color:#0e7490;">📐</div><div><h2>Trigonometrie</h2><p>Afrikaans · Vraestel 2 · identiteite, vergelykings, grafieke &amp; 2D/3D</p></div></div>
+  <div class="sh">📐 Identiteite &amp; reëls</div>
+  <div class="card">
+    <h4>Basiese identiteite</h4>
+    <ul><li>sin²θ + cos²θ = 1</li><li>tan θ = sin θ ⁄ cos θ</li></ul>
+    <h4>Saamgestelde &amp; dubbelhoeke</h4>
+    <ul><li>sin(A ± B) = sin A cos B ± cos A sin B</li><li>cos(A ± B) = cos A cos B ∓ sin A sin B</li><li>sin 2A = 2 sin A cos A</li><li>cos 2A = cos²A − sin²A = 1 − 2sin²A = 2cos²A − 1</li></ul>
+    <h4>Algemene oplossing</h4>
+    <ul><li>sin θ = sin α &nbsp;⇒&nbsp; θ = α + 360°k &nbsp;OF&nbsp; θ = 180° − α + 360°k</li><li>cos θ = cos α &nbsp;⇒&nbsp; θ = ± α + 360°k</li><li>tan θ = tan α &nbsp;⇒&nbsp; θ = α + 180°k &nbsp;(k ∈ ℤ)</li></ul>
+    <h4>Driehoeke (2D &amp; 3D)</h4>
+    <ul><li><strong>Sinusreël:</strong> a ⁄ sin A = b ⁄ sin B = c ⁄ sin C</li><li><strong>Cosinusreël:</strong> a² = b² + c² − 2bc·cos A</li><li><strong>Oppervlakreël:</strong> Oppervlak = ½·ab·sin C</li></ul>
+  </div>
+  <div class="callout exam"><div class="ico">📌</div><div>By grafieke: ken die effek van a, b, c en p op y = a·sin b(x + p) + c (amplitude, periode 360°/b, verskuiwings).</div></div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Trigonometrie')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ ANALITIESE MEETKUNDE ═══════════════ -->
+<div id="page-maths-analitiese" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#cffafe;color:#0e7490;">🧭</div><div><h2>Analitiese Meetkunde</h2><p>Afrikaans · Vraestel 2</p></div></div>
+  <div class="sh">📐 Kernformules</div>
+  <div class="card">
+    <ul>
+      <li><strong>Afstand:</strong> d = √[ (x₂ − x₁)² + (y₂ − y₁)² ]</li>
+      <li><strong>Middelpunt:</strong> ( (x₁ + x₂)⁄2 , (y₁ + y₂)⁄2 )</li>
+      <li><strong>Gradiënt:</strong> m = (y₂ − y₁) ⁄ (x₂ − x₁)</li>
+      <li><strong>Ewewydig:</strong> m₁ = m₂ &nbsp;·&nbsp; <strong>Loodreg:</strong> m₁ × m₂ = −1</li>
+      <li><strong>Vergelyking van 'n lyn:</strong> y − y₁ = m(x − x₁)</li>
+      <li><strong>Hoek van inklinasie:</strong> m = tan θ</li>
+      <li><strong>Sirkel (middelpunt (a, b)):</strong> (x − a)² + (y − b)² = r²</li>
+      <li>'n Raaklyn aan 'n sirkel is <strong>loodreg op die radius</strong> by die raakpunt</li>
+    </ul>
+  </div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Analitiese Meetkunde')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+
+<!-- ═══════════════ SIRKELMEETKUNDE ═══════════════ -->
+<div id="page-maths-meetkunde" class="page"><div class="container">
+  <div class="page-title"><div class="ic" style="background:#cffafe;color:#0e7490;">⭕</div><div><h2>Sirkelmeetkunde &amp; Eweredigheid</h2><p>Afrikaans · Vraestel 2 · stellings, bewyse &amp; gelykvormigheid</p></div></div>
+  <div class="sh">📐 Sirkelstellings (ken die redes!)</div>
+  <div class="card">
+    <ul>
+      <li>Die hoek by die <strong>middelpunt</strong> = 2 × die hoek by die <strong>omtrek</strong> (op dieselfde boog)</li>
+      <li>Die hoek in 'n <strong>halfsirkel</strong> = 90°</li>
+      <li>Hoeke in dieselfde <strong>segment</strong> is gelyk</li>
+      <li><strong>Sikliese vierhoek:</strong> teenoorgestelde hoeke = 180°; 'n buitehoek = die teenoorgestelde binnehoek</li>
+      <li>'n <strong>Raaklyn</strong> is loodreg op die radius by die raakpunt</li>
+      <li><strong>Raaklyn–koord (tan-koord):</strong> die hoek tussen raaklyn en koord = die omtrekshoek in die alternatiewe segment</li>
+      <li>Twee raaklyne vanaf dieselfde punt is <strong>gelyk in lengte</strong></li>
+    </ul>
+  </div>
+  <div class="sh">📐 Eweredigheid &amp; gelykvormigheid</div>
+  <div class="card">
+    <ul>
+      <li><strong>Middelpuntstelling:</strong> die lyn deur die middelpunte van twee sye is ewewydig aan en die helfte van die derde sy</li>
+      <li>'n Lyn ewewydig aan een sy van 'n driehoek verdeel die ander twee sye <strong>eweredig</strong></li>
+      <li><strong>Gelykvormige driehoeke (∆∆∆ / AAA):</strong> ooreenstemmende sye is in dieselfde verhouding</li>
+    </ul>
+  </div>
+  <div class="callout exam"><div class="ico">📌</div><div>By bewyse: skryf elke stelling se <strong>rede</strong> neer. Punte word vir die korrekte rede gegee, nie net die antwoord nie.</div></div>
+  <button class="btn-primary" onclick="fcOpenDeck('maths','Sirkelmeetkunde')">🃏 Oefen flitskaarte vir hierdie hoofstuk</button>
+  <div class="callout tip" style="margin-top:14px;"><div class="ico">⚠️</div><div>Oefenvrae vir hierdie hoofstuk kom binnekort.</div></div>
+</div></div>
+<script src="supabase-config.js"></script>
+<script src="push-config.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════════
    ✨ STUDY HUB ENGINE — router, subjects, scheduler, flashcards,
@@ -2253,7 +2498,10 @@ tr:hover td{background:rgba(99,102,241,.07);}
       content:['home','plants','endocrine','repro','menstrual','disorders','practice','tricks']},
     cat:{name:'CAT',sub:'Paper 2',emoji:'💻',grad:'linear-gradient(135deg,#2563eb,#0ea5e9)',accent:'#2563eb',home:'cat-home',
       tabs:[['cat-home','🏠 Overview'],['cat-secA','🔤 Section A'],['cat-q3','🖥️ System Tech'],['cat-q4','🌐 Internet & Networks'],['cat-q5','📊 Info Management'],['cat-q6','🌍 Social Implications'],['cat-q7','💡 Solution Dev'],['cat-q89','🔗 Integrated'],['cat-tips','✅ Exam Tips'],['flashcards','🃏 Flashcards'],['quiz','🎮 Quiz'],['marks','📊 Marks']],
-      content:['cat-home','cat-secA','cat-q3','cat-q4','cat-q5','cat-q6','cat-q7','cat-q89','cat-tips']}
+      content:['cat-home','cat-secA','cat-q3','cat-q4','cat-q5','cat-q6','cat-q7','cat-q89','cat-tips']},
+    maths:{name:'Wiskunde',sub:'V1 & V2 · Afr',emoji:'📐',grad:'linear-gradient(135deg,#0f766e,#0e7490)',accent:'#0f766e',home:'maths-home',
+      tabs:[['maths-home','🏠 Oorsig'],['maths-ryereekse','🔢 Rye & Reekse'],['maths-funksies','📈 Funksies'],['maths-calculus','📉 Calculus'],['maths-finansies','💰 Finansies'],['maths-waarskynlikheid','🎲 Waarskynlikheid'],['maths-statistiek','📊 Statistiek'],['maths-trig','📐 Trigonometrie'],['maths-analitiese','🧭 Analitiese Mk.'],['maths-meetkunde','⭕ Sirkelmeetkunde'],['flashcards','🃏 Flitskaarte'],['marks','📊 Punte']],
+      content:['maths-home','maths-ryereekse','maths-funksies','maths-calculus','maths-finansies','maths-waarskynlikheid','maths-statistiek','maths-trig','maths-analitiese','maths-meetkunde']}
   };
   var current=null;
 
@@ -2311,7 +2559,7 @@ tr:hover td{background:rgba(99,102,241,.07);}
       card.onclick=function(){window.openSubject(sid);}; g.appendChild(card);
     });
   }
-  function renderHub(){renderSubjectGrid();renderSchedRows();}
+  function renderHub(){renderSubjectGrid();renderSchedRows();renderProgressDash();}
 
   /* ─────────── COUNTDOWN BANNERS ─────────── */
   function renderCountdowns(){
@@ -2357,6 +2605,17 @@ tr:hover td{background:rgba(99,102,241,.07);}
     'Key terms':[['Bandwidth','Max data transmitted from one point to another in a given time'],['Cookie','Text file storing data about a user’s browsing habits'],['IP address','Unique address identifying a computer on a network'],['Caching','Storing frequently used data/pages so they load faster'],['Validation rule','Condition data must satisfy to be accepted in a field'],['Primary key','Unique field identifying each record (no duplicates)'],['Defragmentation','Reorganises file parts for speed — NOT more space'],['Intranet','Private internal network for one organisation only'],['Social engineering','Manipulating people into revealing confidential info'],['Plug and Play','Auto-detects & configures new hardware, no restart'],['Wildcard (*)','Represents any characters in a query (Smi* → Smith)']],
     'Security threats':[['Spyware','Secretly collects personal data and sends it to others'],['Phishing','Fake emails/sites trick you into giving info willingly'],['Pharming','Redirects you from a real site to a fake one'],['Hacker','Unauthorised access as a challenge (not always malicious)'],['Cracker','Unauthorised access for malicious purposes'],['Worm','Self-replicates across a network WITHOUT attaching to a file'],['Virus','Self-replicates by attaching to files; causes damage'],['Ransomware','Encrypts your files and demands payment to unlock'],['BotNet','Network of infected PCs controlled remotely for attacks'],['DoS attack','Floods a server so it becomes unavailable'],['Keylogger','Records every keystroke to steal passwords'],['Spoofing','Disguises comms to look like a trusted source']],
     'Spreadsheets & Word':[['Formula vs Function','Formula = your calculation (=A1+B1); Function = built-in (=SUM)'],['Absolute reference','$C$8 locks a cell when filling — used for constants'],['Circular reference','A formula that refers to its own cell (error)'],['VLOOKUP','Searches the first column and returns a value from the same row'],['COUNTIF vs SUMIF','COUNTIF counts records; SUMIF adds values'],['###### error','Column too narrow — widen it'],['#VALUE! error','Used text where a number was needed'],['Section vs Page break','Section = new formatting region; Page = start a new page'],['Mail merge','Template + data source → personalised letters'],['Metadata','Auto-stored info: author, date, size, word count'],['ROUNDDOWN(4.87,1)','Rounds down to 1 decimal → 4.8']]
+   },
+   maths:{
+    'Rye & Reekse':[['Rekenkundige n-de term','Tₙ = a + (n − 1)d'],['Rekenkundige som','Sₙ = n/2 [2a + (n − 1)d]'],['Meetkundige n-de term','Tₙ = a·rⁿ⁻¹'],['Meetkundige som','Sₙ = a(rⁿ − 1)/(r − 1), r ≠ 1'],['Som tot oneindig','S∞ = a/(1 − r)'],['Wanneer konvergeer ’n meetkundige reeks?','Slegs as −1 < r < 1'],['Aantal terme in ’n Σ-reeks','(boonste − onderste) + 1']],
+    'Funksies & Inverses':[['Hoe kry jy die inverse?','Verwissel x en y, los dan op vir y'],['Inverse as refleksie','f⁻¹ is die refleksie van f om die lyn y = x'],['Inverse van b^x','f⁻¹(x) = log_b x'],['log(AB)','= log A + log B'],['log(A/B)','= log A − log B'],['log Aⁿ','= n·log A'],['Wanneer is ’n parabool se inverse ’n funksie?','Net as die domein beperk word (bv. x ≥ 0)']],
+    'Calculus':[['Afgeleide uit eerste beginsels','f′(x) = lim(h→0) [f(x+h) − f(x)] / h'],['Reël: d/dx(a·xⁿ)','a·n·xⁿ⁻¹'],['Gradiënt van ’n raaklyn','= f′(x) by daardie punt'],['Stasionêre punte','Stel f′(x) = 0'],['Buigpunt','Stel f″(x) = 0'],['Snelheid & versnelling','v = s′(t),  a = v′(t)'],['Optimisering','Stel die afgeleide = 0 vir maks/min']],
+    'Finansies':[['Saamgestelde groei','A = P(1 + i)ⁿ'],['Waardevermindering (verminderende saldo)','A = P(1 − i)ⁿ'],['Reguitlyn-waardevermindering','A = P(1 − i·n)'],['Nominaal → effektief','1 + i_eff = (1 + i_nom/m)^m'],['Toekomstige waarde (annuïteit)','F = x[((1 + i)ⁿ − 1) / i]'],['Huidige waarde (annuïteit)','P = x[(1 − (1 + i)⁻ⁿ) / i]']],
+    'Waarskynlikheid':[['Optelreël','P(A of B) = P(A) + P(B) − P(A en B)'],['Onderling uitsluitend','P(A en B) = 0'],['Onafhanklike gebeurtenisse','P(A en B) = P(A) × P(B)'],['Komplement','P(nie A) = 1 − P(A)'],['Telbeginsel','Vermenigvuldig die moontlikhede van opeenvolgende keuses'],['Faktoriaal n!','n × (n−1) × … × 2 × 1']],
+    'Statistiek':[['Gemiddeld','x̄ = Σx / n'],['Interkwartielomvang','IKO = Q₃ − Q₁'],['Uitskieter','< Q₁ − 1,5·IKO  of  > Q₃ + 1,5·IKO'],['Vyfgetalopsomming','min, Q₁, mediaan, Q₃, maks'],['Ogief','Grafiek van kumulatiewe frekwensie (S-kromme)'],['Korrelasiekoëffisiënt r','−1 ≤ r ≤ 1  (±1 sterk, 0 swak)'],['Regressielyn','ŷ = A + Bx']],
+    'Trigonometrie':[['Vierkantsidentiteit','sin²θ + cos²θ = 1'],['tan θ','= sin θ / cos θ'],['sin 2A','= 2 sin A cos A'],['cos 2A','= cos²A − sin²A = 1 − 2sin²A = 2cos²A − 1'],['Sinusreël','a/sin A = b/sin B = c/sin C'],['Cosinusreël','a² = b² + c² − 2bc·cos A'],['Oppervlakreël','Oppervlak = ½·ab·sin C'],['Algemene oplossing sin θ = sin α','θ = α + 360°k  OF  180° − α + 360°k']],
+    'Analitiese Meetkunde':[['Afstand tussen 2 punte','d = √[(x₂−x₁)² + (y₂−y₁)²]'],['Middelpunt','((x₁+x₂)/2 , (y₁+y₂)/2)'],['Gradiënt','m = (y₂−y₁)/(x₂−x₁)'],['Ewewydige lyne','m₁ = m₂'],['Loodregte lyne','m₁ × m₂ = −1'],['Vergelyking van ’n lyn','y − y₁ = m(x − x₁)'],['Sirkel, middelpunt (a,b)','(x − a)² + (y − b)² = r²'],['Raaklyn aan ’n sirkel','Loodreg op die radius by die raakpunt']],
+    'Sirkelmeetkunde':[['Hoek by die middelpunt','= 2 × hoek by die omtrek (selfde boog)'],['Hoek in ’n halfsirkel','= 90°'],['Hoeke in dieselfde segment','is gelyk'],['Sikliese vierhoek','Teenoorgestelde hoeke = 180°'],['Raaklyn–koordstelling','hoek tussen raaklyn & koord = omtrekshoek in alt. segment'],['Twee raaklyne vanaf ’n punt','is gelyk in lengte'],['Middelpuntstelling','lyn deur middelpunte van 2 sye is ∥ en ½ van die 3de sy'],['Gelykvormige driehoeke','ooreenstemmende sye in dieselfde verhouding']]
    }
   };
   var fc={sub:'ls',deck:'',active:[],pos:0};
@@ -2549,6 +2808,155 @@ tr:hover td{background:rgba(99,102,241,.07);}
     out.innerHTML=h+'</div>';
   }
 
+  /* ─────────── extra state ─────────── */
+  D.studyMin=D.studyMin||{};
+
+  window.fcOpenDeck=function(sub,deck){
+    if(SUBJECTS[sub]&&current!==sub){current=sub;buildNav();}
+    window.show('flashcards');
+    if(DECKS[fc.sub]&&DECKS[fc.sub][deck]){fc.deck=deck;fcBuild();fcDecksRender();fcRender();}
+  };
+
+  /* ─────────── toast + notifications ─────────── */
+  var toastEl=el('div'); toastEl.id='toast'; document.body.appendChild(toastEl); var toastT;
+  function toast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('show');},4200);}
+  function notify(title,body){
+    try{
+      if('Notification' in window && Notification.permission==='granted'){
+        if(navigator.serviceWorker&&navigator.serviceWorker.ready){navigator.serviceWorker.ready.then(function(r){r.showNotification(title,{body:body,icon:'icon-192.png',badge:'icon-192.png',vibrate:[120,60,120]});}).catch(function(){try{new Notification(title,{body:body});}catch(e){}});}
+        else{try{new Notification(title,{body:body});}catch(e){}}
+      }
+    }catch(e){}
+    toast('🔔 '+title);
+  }
+
+  /* ─────────── STUDY TIMER ─────────── */
+  var T={phase:null,left:0,studied:0,iv:null,sub:'General',studyMin:25,breakMin:5};
+  function fmtClock(s){var m=Math.floor(s/60),ss=s%60;return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;}
+  function buildTimer(){
+    var fab=el('button','timer-fab','⏱️'); fab.title='Study timer'; fab.onclick=openTimer; document.body.appendChild(fab);
+    var ov=el('div','overlay'); ov.id='timerOv';
+    ov.innerHTML='<div class="ov-card"><button class="ov-x" id="timerX">✕</button>'+
+      '<h3 style="font-size:19px;font-weight:900;margin-bottom:4px;">⏱️ Study session</h3>'+
+      '<p style="color:var(--muted);font-size:13px;margin-bottom:16px;">A reminder to start, a break alert, and confetti when you finish. Minutes are logged to your progress.</p>'+
+      '<div class="ov-fields"><label>Subject<select id="tSub"></select></label>'+
+      '<label>Study (min)<input type="number" id="tStudy" min="1" value="25"></label>'+
+      '<label>Break (min)<input type="number" id="tBreak" min="1" value="5"></label></div>'+
+      '<div class="timer-display" id="tDisp">25:00</div>'+
+      '<div class="timer-status" id="tStatus">Ready when you are 🌱</div>'+
+      '<div class="ov-btns"><button class="btn-primary" id="tStart">▶ Start</button>'+
+      '<button class="btn-ghost" id="tPause" style="display:none;">⏸ Pause</button>'+
+      '<button class="btn-ghost" id="tStop" style="display:none;">⏹ Stop</button></div></div>';
+    document.body.appendChild(ov);
+    $('timerX').onclick=function(){ov.classList.remove('show');};
+    ov.addEventListener('click',function(e){if(e.target===ov)ov.classList.remove('show');});
+    $('tStart').onclick=startTimer; $('tPause').onclick=pauseTimer; $('tStop').onclick=function(){stopTimer(true);};
+  }
+  function openTimer(){
+    var sel=$('tSub'); sel.innerHTML='';
+    Object.keys(SUBJECTS).forEach(function(s){var o=el('option');o.value=s;o.textContent=SUBJECTS[s].emoji+' '+SUBJECTS[s].name;sel.appendChild(o);});
+    var g=el('option');g.value='General';g.textContent='📚 General';sel.appendChild(g);
+    if(current&&SUBJECTS[current])sel.value=current;
+    $('timerOv').classList.add('show');
+  }
+  function tick(){T.left--; if(T.phase==='study')T.studied++; $('tDisp').textContent=fmtClock(Math.max(T.left,0)); if(T.left<=0)phaseEnd();}
+  function startTimer(){
+    if('Notification' in window && Notification.permission==='default')Notification.requestPermission();
+    T.sub=$('tSub').value; T.studyMin=Math.max(1,parseInt($('tStudy').value||'25',10)); T.breakMin=Math.max(1,parseInt($('tBreak').value||'5',10));
+    T.phase='study'; T.left=T.studyMin*60; T.studied=0;
+    $('tStart').style.display='none'; $('tPause').style.display=''; $('tStop').style.display=''; $('tPause').textContent='⏸ Pause';
+    $('tStatus').textContent='📚 Study time — focus!'; $('tDisp').textContent=fmtClock(T.left);
+    notify('Study time — start now 📚',(SUBJECTS[T.sub]?SUBJECTS[T.sub].name:'General')+' · '+T.studyMin+' min');
+    clearInterval(T.iv); T.iv=setInterval(tick,1000);
+  }
+  function pauseTimer(){
+    if(T.iv){clearInterval(T.iv);T.iv=null;$('tPause').textContent='▶ Resume';$('tStatus').textContent='⏸ Paused';}
+    else{T.iv=setInterval(tick,1000);$('tPause').textContent='⏸ Pause';$('tStatus').textContent=(T.phase==='study'?'📚 Study time — focus!':'☕ Break');}
+  }
+  function logStudied(){var m=Math.round(T.studied/60); if(m>0){D.studyMin[T.sub]=(D.studyMin[T.sub]||0)+m; save(); renderProgressDash(); renderSubjectGrid();} T.studied=0;}
+  function phaseEnd(){
+    clearInterval(T.iv);T.iv=null;
+    if(T.phase==='study'){
+      logStudied(); boom(1);
+      notify('Great work — time for a break ☕','You studied '+T.studyMin+' min. Break: '+T.breakMin+' min.');
+      T.phase='break'; T.left=T.breakMin*60; $('tStatus').textContent='☕ Break — stretch and breathe'; $('tDisp').textContent=fmtClock(T.left); T.iv=setInterval(tick,1000);
+    } else {
+      notify('Break over — ready for another round? 🔁','Tap Start to study again.');
+      T.phase=null; $('tStatus').textContent='✅ Session complete — well done!'; $('tStart').style.display=''; $('tPause').style.display='none'; $('tStop').style.display='none';
+    }
+  }
+  function stopTimer(manual){clearInterval(T.iv);T.iv=null; if(T.phase==='study')logStudied(); T.phase=null; $('tStart').style.display=''; $('tPause').style.display='none'; $('tStop').style.display='none'; if(manual)$('tStatus').textContent='Stopped — your minutes are saved 👍';}
+
+  /* ─────────── PROGRESS DASHBOARD ─────────── */
+  function fmtMins(m){if(m<60)return m+' min'; return Math.floor(m/60)+'h '+(m%60)+'m';}
+  function renderProgressDash(){
+    var d=$('progressDash'); if(!d)return; var html='';
+    Object.keys(SUBJECTS).forEach(function(sid){
+      var S=SUBJECTS[sid],pr=subjProgress(sid),pct=Math.round(pr.done/pr.total*100);
+      var mins=Math.round(D.studyMin[sid]||0),qb=D.quizBest[sid]||0;
+      var sm=D.marks.filter(function(m){return m.subject===S.name;});
+      var avg=sm.length?Math.round(sm.reduce(function(a,b){return a+b.mark/b.total*100;},0)/sm.length):null;
+      html+='<div class="card" style="border-left:5px solid '+S.accent+'"><h3>'+S.emoji+' '+S.name+'</h3>'+
+        '<div style="display:flex;justify-content:space-between;font-weight:700;font-size:13px;margin:6px 0 4px;"><span>📖 Sections studied</span><b>'+pr.done+' / '+pr.total+'</b></div>'+
+        '<div class="bar"><i style="width:'+pct+'%;background:'+S.accent+'"></i></div>'+
+        '<div style="display:flex;gap:10px;margin-top:14px;text-align:center;">'+
+        '<div style="flex:1;"><div style="font-size:21px;font-weight:900;">'+fmtMins(mins)+'</div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">studied</div></div>'+
+        '<div style="flex:1;"><div style="font-size:21px;font-weight:900;">'+(qb?qb+'%':'—')+'</div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">quiz best</div></div>'+
+        '<div style="flex:1;"><div style="font-size:21px;font-weight:900;">'+(avg!=null?avg+'%':'—')+'</div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">marks avg</div></div>'+
+        '</div></div>';
+    });
+    var total=Object.keys(SUBJECTS).reduce(function(a,s){return a+(D.studyMin[s]||0);},0);
+    html+='<div class="callout memo"><div class="ico">⏱️</div><div>Total study time logged: <strong>'+fmtMins(Math.round(total))+'</strong>. Start a session with the floating ⏱️ button.</div></div>';
+    d.innerHTML=html;
+  }
+
+  /* ─────────── CLOUD SYNC (Supabase) — dormant until keys set in supabase-config.js ─────────── */
+  var SB=null, sbUser=null, pushT2=null;
+  function cloudEnabled(){return !!(window.HUB_SUPABASE&&window.HUB_SUPABASE.url&&window.HUB_SUPABASE.anonKey&&window.HUB_SUPABASE.url.indexOf('YOUR-')<0);}
+  function cloudPush(){if(!SB||!sbUser)return; clearTimeout(pushT2); pushT2=setTimeout(function(){try{SB.from('progress').upsert({user_id:sbUser.id,data:D,updated:new Date().toISOString()});}catch(e){}},900);}
+  var _origSave=save; save=function(){_origSave(); try{cloudPush();}catch(e){}};
+  function cloudMerge(remote){if(!remote)return; try{Object.assign(D,remote); _origSave(); buildNav(); renderHub();}catch(e){}}
+  function cloudPull(){ if(!SB||!sbUser)return; SB.from('progress').select('data').eq('user_id',sbUser.id).single().then(function(r){if(r&&r.data&&r.data.data)cloudMerge(r.data.data); cloudPush();},function(){}); }
+  window.cloudSignIn=function(username,password,create,cb){
+    if(!SB){cb&&cb('Cloud not ready');return;}
+    var email=(username||'').trim().toLowerCase().replace(/[^a-z0-9._-]/g,'')+'@studyhub.local';
+    SB.auth[create?'signUp':'signInWithPassword']({email:email,password:password}).then(function(res){
+      if(res.error){cb&&cb(res.error.message);return;}
+      sbUser=(res.data&&res.data.user)||null; cb&&cb(null); if(sbUser)cloudPull();
+    },function(e){cb&&cb('Sign-in failed');});
+  };
+  function cloudInit(){
+    if(!cloudEnabled())return;
+    var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    s.onload=function(){try{SB=window.supabase.createClient(window.HUB_SUPABASE.url,window.HUB_SUPABASE.anonKey);
+      SB.auth.getSession().then(function(r){if(r&&r.data&&r.data.session){sbUser=r.data.session.user; cloudPull();}});}catch(e){}};
+    document.head.appendChild(s);
+  }
+  function openCloud(){
+    if(!cloudEnabled()){toast('☁️ Cloud sync is not set up yet — see SETUP-CLOUD.md');return;}
+    var ov=$('cloudOv'); if(!ov){
+      ov=el('div','overlay'); ov.id='cloudOv';
+      ov.innerHTML='<div class="ov-card"><button class="ov-x" id="cloudX">✕</button>'+
+        '<h3 style="font-size:19px;font-weight:900;margin-bottom:4px;">☁️ Cloud sync</h3>'+
+        '<p style="color:var(--muted);font-size:13px;margin-bottom:14px;">Sign in to save your progress to the cloud and sync across devices.</p>'+
+        '<div class="ov-fields"><label>Username<input type="text" id="cuUser"></label><label>Password<input type="password" id="cuPass"></label></div>'+
+        '<div id="cloudMsg" style="font-size:12.5px;font-weight:700;min-height:16px;margin:6px 0;"></div>'+
+        '<div class="ov-btns"><button class="btn-primary" id="cuIn">Sign in</button><button class="btn-ghost" id="cuNew">Create account</button></div></div>';
+      document.body.appendChild(ov);
+      $('cloudX').onclick=function(){ov.classList.remove('show');};
+      ov.addEventListener('click',function(e){if(e.target===ov)ov.classList.remove('show');});
+      function go(create){window.cloudSignIn($('cuUser').value,$('cuPass').value,create,function(err){$('cloudMsg').style.color=err?'#dc2626':'#16a34a';$('cloudMsg').textContent=err||'✓ Synced!';if(!err)setTimeout(function(){ov.classList.remove('show');},900);});}
+      $('cuIn').onclick=function(){go(false);}; $('cuNew').onclick=function(){go(true);};
+    }
+    ov.classList.add('show');
+  }
+  window.openCloud=openCloud;
+
+  /* ─────────── PWA install ─────────── */
+  var deferredPrompt=null;
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var b=$('installBtn');if(b)b.style.display='inline-flex';});
+  function doInstall(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;var b=$('installBtn');if(b)b.style.display='none';}else{toast('📲 Use your browser menu → "Install app" / "Add to Home screen".');}}
+
   /* ─────────── INIT ─────────── */
   function init(){
     buildNav(); renderHub(); renderCountdowns(); fillSubjectSelect();
@@ -2557,7 +2965,12 @@ tr:hover td{background:rgba(99,102,241,.07);}
     if($('schedGenBtn'))$('schedGenBtn').onclick=generateSchedule;
     if($('qtMarks'))$('qtMarks').onclick=function(){window.openHubTool('marks');};
     if($('qtSched'))$('qtSched').onclick=function(){var c=$('schedCard');if(c)c.scrollIntoView({behavior:'smooth'});};
+    if($('qtCloud'))$('qtCloud').onclick=openCloud;
+    if($('installBtn'))$('installBtn').onclick=doInstall;
     document.addEventListener('keydown',function(e){var fp=$('page-flashcards');if(fp&&fp.classList.contains('active')&&(e.code==='Space'||e.key===' ')){var t=(e.target.tagName||'');if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;e.preventDefault();window.fcFlip();}});
+    buildTimer(); cloudInit();
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+    if('Notification' in window && Notification.permission==='default'){/* asked on first session */}
     generateSchedule();
     revealPage($('page-hub'));
   }

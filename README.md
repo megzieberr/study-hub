@@ -11,6 +11,14 @@ its tabbed guide, track your marks, and generate a smart study plan around your 
 
 - **Life Sciences — Paper 2** — Flowering Plants, Endocrine System, Human Reproduction, Menstrual Cycle, Disorders, Practice Q&A, Tricks & Traps (compiled from 10+ years of IEB past papers), with labelled SVG diagrams.
 - **CAT — Paper 2** — Paper structure, Section A (acronyms/MCQ/matching), System Technologies, Internet & Networks, Information Management, Social Implications, Solution Development, Integrated Q8–9, and Exam Tips (from IEB CAT papers 2011–2024).
+- **Wiskunde (Maths) — V1 & V2, in Afrikaans** — chapter-by-chapter key formulas + flashcards: Rye & Reekse, Funksies & Inverses, Calculus, Finansies, Waarskynlikheid, Statistiek, Trigonometrie, Analitiese Meetkunde, Sirkelmeetkunde. (Per-chapter practice questions to follow.)
+
+## 📲 Installable app + reminders
+
+- **PWA** — install to a phone/laptop home screen; works offline (service worker).
+- **Study timer** — pick study + break minutes; get notifications for start / break / finish and confetti when done; minutes are logged to your progress. (Reminders when the app is fully closed need a push server — see [PUSH-SETUP.md](PUSH-SETUP.md).)
+- **Progress dashboard** — study minutes, sections studied, quiz best and marks average per subject.
+- **Cloud sync (optional)** — sync progress across devices with Supabase; off by default (device-only). See [SETUP-CLOUD.md](SETUP-CLOUD.md).
 
 ## ✨ Features
 
