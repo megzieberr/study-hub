@@ -452,6 +452,30 @@ tr:hover td{background:rgba(99,102,241,.07);}
   background:linear-gradient(135deg,#16a34a,#0e7490);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .timer-status{text-align:center;font-weight:800;color:var(--ink);margin-bottom:16px;min-height:20px;}
 .ov-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+/* ───────── MOBILE / RESPONSIVE FIXES ───────── */
+@media(max-width:760px){
+  /* wide tables & long maths scroll INSIDE their card instead of overflowing the page */
+  .card{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .qa-q,.qa-a{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0;}
+  .diagram{overflow-x:auto;}
+}
+@media(max-width:600px){
+  .container{padding:0 12px 50px;}
+  .card{padding:18px 15px;border-radius:16px;}
+  .page-title{padding:18px 15px;margin-top:18px;gap:12px;}
+  .page-title .ic{width:44px;height:44px;font-size:20px;}
+  table{font-size:12.5px;}
+  th{padding:8px 9px;font-size:10.5px;letter-spacing:.3px;}
+  td{padding:8px 9px;}
+  .sh{font-size:17px;padding:11px 13px;margin:26px 0 12px;}
+  .callout{padding:12px 14px;font-size:13px;}
+  .hero,.hub-hero{padding:40px 16px 34px;}
+  .timer-fab{bottom:84px;right:12px;}
+  #backTop{right:12px;}
+  .subject-grid{gap:14px;}
+}
 </style>
 </head>
 <body>
@@ -2562,6 +2586,7 @@ tr:hover td{background:rgba(99,102,241,.07);}
     document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
     var p=pageEl(id)||pageEl('hub'); p.classList.add('active');
     document.querySelectorAll('#mainNav .nav-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-tab')===id);});
+    var ab=document.querySelector('#mainNav .nav-btn.active'); if(ab&&ab.scrollIntoView){try{ab.scrollIntoView({inline:'center',block:'nearest'});}catch(e){}}
     window.scrollTo({top:0,behavior:'smooth'});
     if(id==='flashcards')fcEnter();
     if(id==='quiz')quizEnter();
