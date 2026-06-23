@@ -2957,8 +2957,26 @@ tr:hover td{background:rgba(99,102,241,.07);}
   window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var b=$('installBtn');if(b)b.style.display='inline-flex';});
   function doInstall(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;var b=$('installBtn');if(b)b.style.display='none';}else{toast('📲 Use your browser menu → "Install app" / "Add to Home screen".');}}
 
+  /* ─────────── PRELIM TIMETABLE SEED (one-time, from her green cells) ─────────── */
+  function seedTimetable(){
+    if(D.ttSeed)return;
+    var b={ls:'2026-08-27',cat:'2026-08-18',maths:'2026-08-17'},pri={ls:'high',cat:'med',maths:'high'};
+    Object.keys(b).forEach(function(k){D.subjects[k]=D.subjects[k]||{exam:'',priority:pri[k]}; if(!D.subjects[k].exam)D.subjects[k].exam=b[k];});
+    if(!D.customSubs||!D.customSubs.length){
+      D.customSubs=[
+        {id:'tt-phys',name:'Physical Sciences',exam:'2026-08-24',priority:'high'},
+        {id:'tt-eng',name:'English',exam:'2026-08-25',priority:'med'},
+        {id:'tt-afr',name:'Afrikaans',exam:'2026-09-03',priority:'med'},
+        {id:'tt-egd',name:'EGD',exam:'2026-08-18',priority:'med'},
+        {id:'tt-lo',name:'Life Orientation',exam:'2026-09-15',priority:'low'}
+      ];
+    }
+    D.ttSeed=true; save();
+  }
+
   /* ─────────── INIT ─────────── */
   function init(){
+    seedTimetable();
     buildNav(); renderHub(); renderCountdowns(); fillSubjectSelect();
     var di=$('mkDate'); if(di&&!di.value)di.value=todayISO();
     if($('schedAddBtn'))$('schedAddBtn').onclick=function(){D.customSubs.push({id:'c'+Date.now(),name:'',exam:'',priority:'med'});save();renderSchedRows();};
